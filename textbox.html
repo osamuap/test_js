@@ -1,0 +1,35 @@
+<html lang='ja'>
+<meta charset='UTF-8'>
+<head>
+</head>
+<body>
+
+<form name="js">
+お名前：<input type="text" name="txtb" value=""><br>
+<input type="button" value="歓迎１" onclick="tbox1()"><br>
+<input type="button" value="消去" onclick="clr()"><br>
+</form>
+
+<script>
+
+//テキストボックスの文字を取得する
+function tbox1(){
+
+  var str1=document.js.txtb.value;
+  alert("ようこそ"+str1+"さん！");
+
+}
+
+
+//テキストボックスの文字を操作する
+function clr(){
+
+  document.js.txtb.value="";
+
+}
+
+</script>
+
+Here is body
+</body>
+</html>
