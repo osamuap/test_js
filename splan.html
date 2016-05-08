@@ -124,7 +124,16 @@ function calc_hexa_values(val_ary, hexa_1st, hexa_2nd) {
     hexa_values[i % 6] = hexa_values[i % 6] + val_ary[i];
   }
 
-//  @hexa_values.map!{ |a_value| 
+  for (var i = 0; i < hexa_values.length - 1; i++) {
+    var a_value = hexa_values[i];
+    while (a_value >= 23) {
+      var str = String(a_value);
+      a_value = 0;
+
+      
+    }
+  }
+// hexa_values.map!{ |a_value| 
 //    while a_value >= 23 do 
 //      a_value = a_value.to_s.chars.inject(0) { |sum, i| sum + i.to_i  } 
 //    end
