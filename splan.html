@@ -1,0 +1,148 @@
+<html lang='ja'>
+<meta charset='UTF-8'>
+<head>
+</head>
+<body>
+
+<form name="js">
+名前(半角小文字)：<input type="text" name="txtb" value=""><br>
+<input type="button" value="計算" onclick="tbox1()"><br>
+<input type="button" value="消去" onclick="clr()"><br>
+</form>
+
+<script>
+
+//////////////////////////////////////////////////////////////
+// テキストボックスの文字を取得して結果を表示
+function tbox1(){
+
+  var orig_name = document.js.txtb.value;
+  var case_name = orig_name.toUpperCase().replace(' ', '');
+  var char_array = get_char_array(case_name);
+  var value_array = get_value_array(char_array);
+
+  change_special_two_chars(char_array, value_array);
+
+  // Calc hexa values
+  var hexa_1st_val_array;
+  var hexa_2nd_val_array;
+  calc_hexa_values(value_array, hexa_1st_val_array, hexa_2nd_val_array);
+
+  var str = "";
+  for (var i = 0; i < char_array.length; i++) {
+    str += char_array[i] + "=" + value_array[i] + ", ";
+  }
+
+  alert(
+    "ようこそ"+orig_name+"さん！\n" + 
+    "バイト列は "+str+" です。\n"
+  );
+
+}
+
+//////////////////////////////////////////////////////////////
+//テキストボックスの文字を操作する
+function clr(){
+
+  document.js.txtb.value="";
+
+}
+
+//////////////////////////////////////////////////////////////
+// Sプランの計算
+function  get_char_array(str) {
+  var char_ary = new Array(str.length);
+
+  for (var i = 0; i < str.length; i++) {
+    char_ary[i] = str.charAt(i);
+  }
+  return char_ary;
+}
+
+function  get_value_array(char_array) {
+  var alphabets_to_value = {
+    "A" :  1, "B" :  2, "C" : 11, "D" :  4, "E" :  5,
+    "F" : 17, "G" :  3, "H" :  5, "I" : 10, "J" : 10,
+    "K" : 19, "L" : 12, "M" : 13, "N" : 14, "O" :  6,
+    "P" : 17, "Q" : 19, "R" : 20, "S" : 15, "T" :  9,
+    "U" :  6, "V" :  6, "W" :  6, "X" : 15, "Y" : 16,
+    "Z" :  7,
+  }
+
+  var val_ary = new Array(char_array.length);
+  for (idx in char_array) {
+    val_ary[idx] = alphabets_to_value[char_array[idx]];
+  }
+
+  // 最後の"M" または "P" の場合の補正
+  var last_char = char_array[char_array.length -1];
+  if ((last_char == "M") || (last_char == "P")) {
+    val_ary[char_array.length -1] = 12;
+  }
+
+  return val_ary;
+}
+
+function  change_special_two_chars(char_ary, val_ary) {
+
+  var index_max = char_ary.length - 1;
+
+  for (var index = 0; index < index_max; index++) {
+    var two_chars = char_ary[index]+ char_ary[index+1];
+
+    var replace_value = -1
+    switch (two_chars) {
+      case "AH" : replace_value =  5;  break;
+      case "CH" : replace_value =  8;  break;
+      case "SH" : replace_value = 21;  break;
+      case "TA" : replace_value = 21;  break;
+      case "TH" : replace_value = 22;  break;
+      case "TZ" : replace_value = 18;  break;
+      case "WH" : replace_value = 16;  break;
+      default   : replace_value = -1;  break;
+    }
+
+    if (replace_value != -1) {
+      index_max -= 1;
+      char_ary[index] = two_chars;
+      val_ary[index] = replace_value;
+
+      char_ary.splice(index+1, 1);
+      val_ary.splice(index+1, 1);
+    }
+  }
+}
+
+// 
+function calc_hexa_values(val_ary, hexa_1st, hexa_2nd) {
+  var hexa_values = [0, 0, 0, 0, 0, 0];
+
+  for (int i = 0; i < val_ary.length - 1; i++) {
+    hexa_values[i % 6] = @hexa_values[i % 6] + val_ary[i];
+  }
+
+  @hexa_values.map!{ |a_value| 
+    while a_value >= 23 do 
+      a_value = a_value.to_s.chars.inject(0) { |sum, i| sum + i.to_i  } 
+    end
+    a_value
+  }
+    
+    @hexa_pair_values = Array.new(6) # six array filled with value 0
+    
+    @hexa_pair_values = @hexa_values.map{ |a_value| 
+      if a_value < 10 then
+        [a_value, a_value]
+      else
+        val_2nd = a_value
+        while val_2nd >= 10 do 
+          val_2nd = val_2nd.to_s.chars.inject(0) { |sum, i| sum + i.to_i  } 
+        end
+        [a_value, val_2nd]
+      end
+    }
+  end
+</script>
+
+</body>
+</html>
