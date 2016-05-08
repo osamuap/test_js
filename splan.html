@@ -17,29 +17,36 @@
 function tbox1(){
 
   var orig_name = document.js.txtb.value;
-  alert( "ようこそ"+orig_name+"さん！");
+//alert( "ようこそ"+orig_name+"さん！");
 
-//  var case_name = orig_name.toUpperCase().replace(' ', '');
-//  var char_array = get_char_array(case_name);
-//  var value_array = get_value_array(char_array);
-//
-//  change_special_two_chars(char_array, value_array);
-//
-//  // Calc hexa values
-//  var hexa_1st_val_array;
-//  var hexa_2nd_val_array;
-//  calc_hexa_values(value_array, hexa_1st_val_array, hexa_2nd_val_array);
-//
-//  var str = "";
-//  for (var i = 0; i < char_array.length; i++) {
-//    str += char_array[i] + "=" + value_array[i] + ", ";
-//  }
-//
+  var case_name = orig_name.toUpperCase().replace(' ', '');
+  var char_array = get_char_array(case_name);
+  var value_array = get_value_array(char_array);
+
+  change_special_two_chars(char_array, value_array);
+
+  // Calc hexa values
+  var hexa_1st_val_array = new Array(6);
+  var hexa_2nd_val_array = new Array(6);
+  calc_hexa_values(value_array, hexa_1st_val_array, hexa_2nd_val_array);
+
+  var destiny_values = new Array(2);
+  calc_destiny_values(hexa_1st_val_array, hexa_2nd_val_array, destiny_values);
+
+  var str = "";
+  for (var i = 0; i < char_array.length; i++) {
+    str += char_array[i] + "=" + value_array[i] + ", ";
+  }
+  
+  var str2 = get_print_string(hexa_1st_val_array, hexa_2nd_val_array, destiny_values);
+
 //  alert( "ようこそ"+orig_name+"さん！");
-////  alert(
-//    "ようこそ"+orig_name+"さん！\n" + 
-//    "バイト列は "+str+" です。\n"
-//  );
+  alert(
+    "ようこそ"+orig_name+"さん！\n" + 
+    "バイト列は "+str+" \n\n" +
+    "結果\n" +
+    ""+str2+""
+  );
 
 }
 
@@ -120,40 +127,88 @@ function  change_special_two_chars(char_ary, val_ary) {
 function calc_hexa_values(val_ary, hexa_1st, hexa_2nd) {
   var hexa_values = [0, 0, 0, 0, 0, 0];
 
-  for (var i = 0; i < val_ary.length - 1; i++) {
+  for (var i = 0; i < val_ary.length; i++) {
     hexa_values[i % 6] = hexa_values[i % 6] + val_ary[i];
   }
 
-  for (var i = 0; i < hexa_values.length - 1; i++) {
+  for (var i = 0; i < hexa_values.length; i++) {
     var a_value = hexa_values[i];
     while (a_value >= 23) {
       var str = String(a_value);
       a_value = 0;
+      for (var j = 0; j < str.length; j++) {
+        a_value += Number(str.charAt(j));
+      }
+    }
+    hexa_values[i] = a_value;
+  }
 
-      
+//  hexa_1st = new Array(6);
+//  hexa_2nd = new Array(6);
+
+  for (var i = 0; i < hexa_values.length; i++) {
+    var a_value = hexa_values[i];
+    if (a_value < 10) {
+      hexa_1st[i] = a_value;
+      hexa_2nd[i] = a_value;
+    }
+    else {
+      var val_2nd = a_value;
+      while (val_2nd >= 10) {
+        var str = String(val_2nd);
+        val_2nd = 0;
+        for (var j = 0; j < str.length; j++) {
+          val_2nd += Number(str.charAt(j));
+        }
+      }
+      hexa_1st[i] = a_value;
+      hexa_2nd[i] = val_2nd;
     }
   }
-// hexa_values.map!{ |a_value| 
-//    while a_value >= 23 do 
-//      a_value = a_value.to_s.chars.inject(0) { |sum, i| sum + i.to_i  } 
-//    end
-//    a_value
-//  }
-//    
-//    @hexa_pair_values = Array.new(6) # six array filled with value 0
-//    
-//    @hexa_pair_values = @hexa_values.map{ |a_value| 
-//      if a_value < 10 then
-//        [a_value, a_value]
-//      else
-//        val_2nd = a_value
-//        while val_2nd >= 10 do 
-//          val_2nd = val_2nd.to_s.chars.inject(0) { |sum, i| sum + i.to_i  } 
-//        end
-//        [a_value, val_2nd]
-//      end
-//    }
-//  end
+  return;
+}
+
+// Calc destiny values
+function calc_destiny_values(hexa_1st, hexa_2nd, destiny_val) {
+  var sum1 = 0;
+  var sum2 = 0;
+
+  for (var i = 0; i < hexa_1st.length; i++) {
+    sum1 += hexa_1st[i];
+    sum2 += hexa_2nd[i];
+  }
+
+  while (sum1 >= 23) {
+    var str = String(sum1);
+    sum1 = 0;
+    for (var j = 0; j < str.length; j++) {
+      sum1 += Number(str.charAt(j));
+    }
+  }
+  
+  while (sum2 >= 10) {
+    var str = String(sum2);
+    sum2 = 0;
+    for (var j = 0; j < str.length; j++) {
+      sum2 += Number(str.charAt(j));
+    }
+  }
+
+  destiny_val[0] = sum1;
+  destiny_val[1] = sum2;
+}
+
+function get_print_string(hexa_1st, hexa_2nd, destiny_val) {
+  var str = "";
+
+  str += "現実世界におけるチャレンジ : " +  hexa_1st[0]    + " - " + hexa_2nd[0]    + "\n";
+  str += "スピリチュアルなチャレンジ : " +  hexa_1st[1]    + " - " + hexa_2nd[1]    + "\n";
+  str += "現実世界における才能       : " +  hexa_1st[2]    + " - " + hexa_2nd[2]    + "\n";
+  str += "スピリチュアルな才能       : " +  hexa_1st[3]    + " - " + hexa_2nd[3]    + "\n";
+  str += "現実世界におけるゴール     : " +  hexa_1st[4]    + " - " + hexa_2nd[4]    + "\n";
+  str += "スピリチュアルなゴール     : " +  hexa_1st[5]    + " - " + hexa_2nd[5]    + "\n";
+  str += "ソウル・ディスティニー     : " +  destiny_val[0] + " - " + destiny_val[1] + "\n";
+  return str;
 }
 </script>
 
