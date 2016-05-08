@@ -34,7 +34,11 @@ function tbox1(){
 
   var str = "";
   for (var i = 0; i < char_array.length; i++) {
-    str += char_array[i] + "=" + value_array[i] + ", ";
+    str += char_array[i] + "=" + value_array[i];
+    if (i == char_array.length - 1) {
+      break;
+    }
+    str += ", ";
   }
   
   var str2 = get_print_string(hexa_1st_val_array, hexa_2nd_val_array, destiny_values);
@@ -42,9 +46,8 @@ function tbox1(){
 //  alert( "ようこそ"+orig_name+"さん！");
   alert(
     "ようこそ"+orig_name+"さん！\n" + 
-    "バイト列\n" +
+    "\n" +
     ""+str+" \n\n" +
-    "結果\n" +
     ""+str2+""
   );
 
@@ -201,12 +204,13 @@ function get_print_string(hexa_1st, hexa_2nd, destiny_val) {
   var str = "";
 
   str += "現実世界におけるチャレンジ : " +  hexa_1st[0]    + " - " + hexa_2nd[0]    + "\n";
-  str += "スピリチュアルなチャレンジ : " +  hexa_1st[2]    + " - " + hexa_2nd[2]    + "\n";
-  str += "現実世界における才能       : " +  hexa_1st[4]    + " - " + hexa_2nd[4]    + "\n";
-  str += "スピリチュアルな才能       : " +  hexa_1st[1]    + " - " + hexa_2nd[1]    + "\n";
-  str += "現実世界におけるゴール     : " +  hexa_1st[3]    + " - " + hexa_2nd[3]    + "\n";
+  str += "現実世界における才能       : " +  hexa_1st[2]    + " - " + hexa_2nd[2]    + "\n";
+  str += "現実世界におけるゴール     : " +  hexa_1st[4]    + " - " + hexa_2nd[4]    + "\n";
+  str += "スピリチュアルなチャレンジ : " +  hexa_1st[1]    + " - " + hexa_2nd[1]    + "\n";
+  str += "スピリチュアルな才能       : " +  hexa_1st[3]    + " - " + hexa_2nd[3]    + "\n";
   str += "スピリチュアルなゴール     : " +  hexa_1st[5]    + " - " + hexa_2nd[5]    + "\n";
-  str += "ソウル・ディスティニー     : " +  destiny_val[0] + " - " + destiny_val[1] + "\n";
+  str += "ソウル・デスティニー       : " +  destiny_val[0] + " - " + destiny_val[1] + "\n";
+
   return str;
 }
 
