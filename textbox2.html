@@ -6,7 +6,7 @@
 
 <form name="js">
 お名前：<input type="text" name="txtb" value=""><br>
-<input type="button" value="歓迎１" onclick="tbox1()"><br>
+<input type="button" value="計算" onclick="tbox1()"><br>
 <input type="button" value="消去" onclick="clr()"><br>
 </form>
 
@@ -68,6 +68,125 @@ function  get_value_array(char_array) {
 
   return val_ary;
 }
+
+function  change_special_two_chars(char_ary, val_ary) {
+
+  var index_max = char_ary.length - 1;
+
+  for (var index = 0; index < index_max; index++) {
+    var two_chars = char_ary[index]+ char_ary[index+1];
+
+    var replace_value = -1
+    switch (two_chars) {
+      case "AH" : replace_value =  5;  break;
+      case "CH" : replace_value =  8;  break;
+      case "SH" : replace_value = 21;  break;
+      case "TA" : replace_value = 21;  break;
+      case "TH" : replace_value = 22;  break;
+      case "TZ" : replace_value = 18;  break;
+      case "WH" : replace_value = 16;  break;
+      default   : replace_value = -1;  break;
+    }
+
+    if (replace_value != -1) {
+      index_max -= 1;
+      char_ary[index] = two_chars;
+      val_ary[index] = replace_value;
+
+      char_ary.splice(index+1, 1);
+      val_ary.splice(index+1, 1);
+    }
+  }
+}
+
+// 
+function calc_hexa_values(val_ary, hexa_1st, hexa_2nd) {
+  var hexa_values = [0, 0, 0, 0, 0, 0];
+
+  for (var i = 0; i < val_ary.length; i++) {
+    hexa_values[i % 6] = hexa_values[i % 6] + val_ary[i];
+  }
+
+  for (var i = 0; i < hexa_values.length; i++) {
+    var a_value = hexa_values[i];
+    while (a_value >= 23) {
+      var str = String(a_value);
+      a_value = 0;
+      for (var j = 0; j < str.length; j++) {
+        a_value += Number(str.charAt(j));
+      }
+    }
+    hexa_values[i] = a_value;
+  }
+
+//  hexa_1st = new Array(6);
+//  hexa_2nd = new Array(6);
+
+  for (var i = 0; i < hexa_values.length; i++) {
+    var a_value = hexa_values[i];
+    if (a_value < 10) {
+      hexa_1st[i] = a_value;
+      hexa_2nd[i] = a_value;
+    }
+    else {
+      var val_2nd = a_value;
+      while (val_2nd >= 10) {
+        var str = String(val_2nd);
+        val_2nd = 0;
+        for (var j = 0; j < str.length; j++) {
+          val_2nd += Number(str.charAt(j));
+        }
+      }
+      hexa_1st[i] = a_value;
+      hexa_2nd[i] = val_2nd;
+    }
+  }
+  return;
+}
+
+// Calc destiny values
+function calc_destiny_values(hexa_1st, hexa_2nd, destiny_val) {
+  var sum1 = 0;
+  var sum2 = 0;
+
+  for (var i = 0; i < hexa_1st.length; i++) {
+    sum1 += hexa_1st[i];
+    sum2 += hexa_2nd[i];
+  }
+
+  while (sum1 >= 23) {
+    var str = String(sum1);
+    sum1 = 0;
+    for (var j = 0; j < str.length; j++) {
+      sum1 += Number(str.charAt(j));
+    }
+  }
+  
+  while (sum2 >= 10) {
+    var str = String(sum2);
+    sum2 = 0;
+    for (var j = 0; j < str.length; j++) {
+      sum2 += Number(str.charAt(j));
+    }
+  }
+
+  destiny_val[0] = sum1;
+  destiny_val[1] = sum2;
+}
+
+function get_print_string(hexa_1st, hexa_2nd, destiny_val) {
+  var str = "";
+
+  str += "現実世界におけるチャレンジ : " +  hexa_1st[0]    + " - " + hexa_2nd[0]    + "\n";
+  str += "スピリチュアルなチャレンジ : " +  hexa_1st[2]    + " - " + hexa_2nd[2]    + "\n";
+  str += "現実世界における才能       : " +  hexa_1st[4]    + " - " + hexa_2nd[4]    + "\n";
+  str += "スピリチュアルな才能       : " +  hexa_1st[1]    + " - " + hexa_2nd[1]    + "\n";
+  str += "現実世界におけるゴール     : " +  hexa_1st[3]    + " - " + hexa_2nd[3]    + "\n";
+  str += "スピリチュアルなゴール     : " +  hexa_1st[5]    + " - " + hexa_2nd[5]    + "\n";
+  str += "ソウル・ディスティニー     : " +  destiny_val[0] + " - " + destiny_val[1] + "\n";
+  return str;
+}
+
 </script>
 
 </body>
