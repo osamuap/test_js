@@ -120,31 +120,32 @@ function  change_special_two_chars(char_ary, val_ary) {
 function calc_hexa_values(val_ary, hexa_1st, hexa_2nd) {
   var hexa_values = [0, 0, 0, 0, 0, 0];
 
-  for (int i = 0; i < val_ary.length - 1; i++) {
-    hexa_values[i % 6] = @hexa_values[i % 6] + val_ary[i];
+  for (var i = 0; i < val_ary.length - 1; i++) {
+    hexa_values[i % 6] = hexa_values[i % 6] + val_ary[i];
   }
 
-  @hexa_values.map!{ |a_value| 
-    while a_value >= 23 do 
-      a_value = a_value.to_s.chars.inject(0) { |sum, i| sum + i.to_i  } 
-    end
-    a_value
-  }
-    
-    @hexa_pair_values = Array.new(6) # six array filled with value 0
-    
-    @hexa_pair_values = @hexa_values.map{ |a_value| 
-      if a_value < 10 then
-        [a_value, a_value]
-      else
-        val_2nd = a_value
-        while val_2nd >= 10 do 
-          val_2nd = val_2nd.to_s.chars.inject(0) { |sum, i| sum + i.to_i  } 
-        end
-        [a_value, val_2nd]
-      end
-    }
-  end
+//  @hexa_values.map!{ |a_value| 
+//    while a_value >= 23 do 
+//      a_value = a_value.to_s.chars.inject(0) { |sum, i| sum + i.to_i  } 
+//    end
+//    a_value
+//  }
+//    
+//    @hexa_pair_values = Array.new(6) # six array filled with value 0
+//    
+//    @hexa_pair_values = @hexa_values.map{ |a_value| 
+//      if a_value < 10 then
+//        [a_value, a_value]
+//      else
+//        val_2nd = a_value
+//        while val_2nd >= 10 do 
+//          val_2nd = val_2nd.to_s.chars.inject(0) { |sum, i| sum + i.to_i  } 
+//        end
+//        [a_value, val_2nd]
+//      end
+//    }
+//  end
+}
 </script>
 
 </body>
