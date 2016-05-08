@@ -17,24 +17,26 @@
 function tbox1(){
 
   var orig_name = document.js.txtb.value;
-  var case_name = orig_name.toUpperCase().replace(' ', '');
-  var char_array = get_char_array(case_name);
-  var value_array = get_value_array(char_array);
-
-  change_special_two_chars(char_array, value_array);
-
-  // Calc hexa values
-  var hexa_1st_val_array;
-  var hexa_2nd_val_array;
-  calc_hexa_values(value_array, hexa_1st_val_array, hexa_2nd_val_array);
-
-  var str = "";
-  for (var i = 0; i < char_array.length; i++) {
-    str += char_array[i] + "=" + value_array[i] + ", ";
-  }
-
   alert( "ようこそ"+orig_name+"さん！");
-//  alert(
+
+//  var case_name = orig_name.toUpperCase().replace(' ', '');
+//  var char_array = get_char_array(case_name);
+//  var value_array = get_value_array(char_array);
+//
+//  change_special_two_chars(char_array, value_array);
+//
+//  // Calc hexa values
+//  var hexa_1st_val_array;
+//  var hexa_2nd_val_array;
+//  calc_hexa_values(value_array, hexa_1st_val_array, hexa_2nd_val_array);
+//
+//  var str = "";
+//  for (var i = 0; i < char_array.length; i++) {
+//    str += char_array[i] + "=" + value_array[i] + ", ";
+//  }
+//
+//  alert( "ようこそ"+orig_name+"さん！");
+////  alert(
 //    "ようこそ"+orig_name+"さん！\n" + 
 //    "バイト列は "+str+" です。\n"
 //  );
