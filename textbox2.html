@@ -12,11 +12,14 @@
 
 <script>
 
+//////////////////////////////////////////////////////////////
 //テキストボックスの文字を取得する
 function tbox1(){
 
   var orig_name =document.js.txtb.value;
   var case_name = orig_name.toUpperCase().replace(' ', '');
+  var char_array = get_char_array(case_name);
+  var value_array = get_value_array(char_array);
 
 
 
@@ -24,14 +27,47 @@ function tbox1(){
 
 }
 
-
-//テキストボックスの文字を操作する
+//////////////////////////////////////////////////////////////
+//テキストボックスの文字をクリア
 function clr(){
-
   document.js.txtb.value="";
 
 }
 
+//////////////////////////////////////////////////////////////
+// Sプランの計算
+function  get_char_array(str) {
+  var char_ary = new Array(str.length);
+
+  for (var i = 0; i < str.length; i++) {
+    char_ary[i] = str.charAt(i);
+  }
+  return char_ary;
+}
+
+function  get_value_array(char_array) {
+  var alphabets_to_value = {
+    "A" :  1, "B" :  2, "C" : 11, "D" :  4, "E" :  5,
+    "F" : 17, "G" :  3, "H" :  5, "I" : 10, "J" : 10,
+    "K" : 19, "L" : 12, "M" : 13, "N" : 14, "O" :  6,
+    "P" : 17, "Q" : 19, "R" : 20, "S" : 15, "T" :  9,
+    "U" :  6, "V" :  6, "W" :  6, "X" : 15, "Y" : 16,
+    "Z" :  7,
+  }
+
+  var val_ary = new Array(char_array.length);
+  for (idx in char_array) {
+    val_ary[idx] = alphabets_to_value[char_array[idx]];
+  }
+
+  // 最後の"M" または "P" の場合の補正
+  var last_char = char_array[char_array.length -1];
+  if ((last_char == "M") || (last_char == "P")) {
+    val_ary[char_array.length -1] = 12;
+  }
+
+  return val_ary;
+}
 </script>
 
 </body>
